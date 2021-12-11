@@ -74,6 +74,45 @@ public class AES {
         }
         return result ;
     }
+    static boolean isPrime(int n)
+    {
+        
+        if (n <= 1)
+            return false;
+        if (n <= 3)
+            return true;
+  
+        
+        if (n % 2 == 0 || n % 3 == 0)
+            return false;
+  
+        for (int i = 5; i * i <= n; i = i + 6)
+            if (n % i == 0 || n % (i + 2) == 0)
+                return false;
+  
+        return true;
+    }
+    public static String complement(String str){
+        for(int i = 0 ; i < str.length() ; i++){
+            if(isPrime(i)){
+                if(str.charAt(i) == 'A'){
+                    str = str.substring(0, i) + 'G' + str.substring(i+1);
+                    
+                }
+                else if(str.charAt(i) == 'G'){
+                    str = str.substring(0, i) + 'A' + str.substring(i+1);
+                }
+                else if(str.charAt(i) == 'C'){
+                    str = str.substring(0, i) + 'T' + str.substring(i+1);
+                }
+                else if(str.charAt(i) == 'T'){
+                    str = str.substring(0, i) + 'C' + str.substring(i+1);
+                }
+
+            }
+        }
+        return str;
+    }
     public static String decryption(String encrypted){
         
             String ans = "";
@@ -280,6 +319,8 @@ public class AES {
             String binary = strToBinary(toEncrypt);
             String test = xorString(binary, key);
             String encrypted = encryption(test);
+            encrypted = reverse(encrypted);
+            encrypted = complement(encrypted);
             System.out.println("encrypted string: "+encrypted);
             return encrypted;
             // DNA 
@@ -302,7 +343,8 @@ public class AES {
         try
         {
             // DNA 
-            
+            strToDecrypt = complement(strToDecrypt);
+            strToDecrypt = reverse(strToDecrypt);
             String decrypted = decryption(strToDecrypt);
             secret = strToBinary(secret);
             decrypted = xorString(decrypted, secret);
