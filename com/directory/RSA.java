@@ -80,8 +80,8 @@ public static String bytesToString(byte[] encrypted) {
 		for (byte b : encrypted) {
 			test += Byte.toString(b);
 		}
-
-		return test;
+                String s = new String(encrypted);   
+		return s;
 	}
 
 	// Encrypt message
@@ -89,6 +89,9 @@ public static String bytesToString(byte[] encrypted) {
 	public byte[] encryptRSA(byte[] message) {
             // DNA 
             String toEncrypt = bytesToString(message);
+            System.out.print(toEncrypt);
+            
+            
             String encrypted = "";
             String fullEncrypt = "";
             for(int i = 0 ; i  < toEncrypt.length();i++){

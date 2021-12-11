@@ -1425,9 +1425,11 @@ else{
     private void jLabel22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel22MouseClicked
      if(!jTextField2.getText().equals("" )){
         String text=jTextField2.getText();
+        //System.out.println(text);
       textkey2 = rsa.encryptRSA(text.getBytes());
     
     String str = new String(textkey2);
+    
     jTextField2.setText(str);
         //jTextField2.setText(Base64.getEncoder().encodeToString(textkey2));
       
@@ -1436,22 +1438,29 @@ else{
     }//GEN-LAST:event_jLabel22MouseClicked
 
     private void jLabel23MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel23MouseClicked
- /*  if(jTextField2.getText()!=null){
+  
+        /*if(jTextField2.getText()!=null){
+      
      String text=jTextField2.getText(); 
       
      byte[] textkey3 = rsa.decryptRSA(Base64.getMimeDecoder().decode(text));
- 
+     
        jTextField2.setText(new String(textkey3) );
-     }    else */
-        if(!jTextArea2.getText().equals(""))  {
-       String message=jTextArea2.getText();
+     }  */  //else 
+ 
+        if(!jTextField2.getText().equals(""))  {
+            
+       String message=jTextField2.getText();
+       System.out.print(message);
          String[] tableau=message.split(":");
          String text=tableau[tableau.length-1];
-   //      System.out.println(tableau[tableau.length-1]);
-         byte[] textkey4 = rsa.decryptRSA(Base64.getMimeDecoder().decode(text));
+         //System.out.println(tableau[tableau.length-1]);
+         
+         //byte[] textkey4 = rsa.decryptRSA(Base64.getMimeDecoder().decode(text));
          byte[] textK = rsa.decryptRSA(message.getBytes());
          String str = new String(textK);
-       jTextField2.setText( str );   
+         
+       jTextField2.setText( str );  
       
      }    }//GEN-LAST:event_jLabel23MouseClicked
 
