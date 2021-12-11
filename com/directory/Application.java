@@ -1074,10 +1074,10 @@ ImageIcon A= new ImageIcon(getClass().getResource("images/exportbutton1.jpg"));
     }//GEN-LAST:event_jLabel13MouseClicked
 
  if(ext.contains(".txt")) {
-     	 for(int i=0;i<text.size();i++) {
+     	 /*for(int i=0;i<text.size();i++) {
 		 String encryptedString = AES.encrypt(text.get(i), keyyyy) ;
 		 text.set(i, encryptedString);
-	 }
+	 }*/
      
  for(int i=0;i<text.size();i++) {
 		 String decryptedString = AES.decrypt(text.get(i), keyyyy) ;
@@ -1085,12 +1085,12 @@ ImageIcon A= new ImageIcon(getClass().getResource("images/exportbutton1.jpg"));
 
 		 text.set(i, decryptedString2);
 	 }
- for(int i=0;i<text.size();i++) {
+ /*for(int i=0;i<text.size();i++) {
 		 String decryptedString = AES.decrypt(text.get(i), keyyyy) ;
                String decryptedString2 = new String(decryptedString.getBytes(),Charset.forName("UTF-8"));
 
 		 text.set(i, decryptedString2);
-	 }
+	 }*/
  
                          jTextArea1.setText("");
 		 for(String ligne:text) {
@@ -1427,21 +1427,31 @@ else{
         String text=jTextField2.getText();
       textkey2 = rsa.encryptRSA(text.getBytes());
     
-        jTextField2.setText(Base64.getEncoder().encodeToString(textkey2));
+    String str = new String(textkey2);
+    jTextField2.setText(str);
+        //jTextField2.setText(Base64.getEncoder().encodeToString(textkey2));
       
         
      }
     }//GEN-LAST:event_jLabel22MouseClicked
 
     private void jLabel23MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel23MouseClicked
-
+ /*  if(jTextField2.getText()!=null){
+     String text=jTextField2.getText(); 
+      
+     byte[] textkey3 = rsa.decryptRSA(Base64.getMimeDecoder().decode(text));
+ 
+       jTextField2.setText(new String(textkey3) );
+     }    else */
         if(!jTextArea2.getText().equals(""))  {
        String message=jTextArea2.getText();
          String[] tableau=message.split(":");
          String text=tableau[tableau.length-1];
+   //      System.out.println(tableau[tableau.length-1]);
          byte[] textkey4 = rsa.decryptRSA(Base64.getMimeDecoder().decode(text));
-    
-       jTextField2.setText( new String(textkey4) );   
+         byte[] textK = rsa.decryptRSA(message.getBytes());
+         String str = new String(textK);
+       jTextField2.setText( str );   
       
      }    }//GEN-LAST:event_jLabel23MouseClicked
 

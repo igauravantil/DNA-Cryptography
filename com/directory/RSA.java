@@ -1,8 +1,11 @@
 package javaapplication;
+ 
+
 import java.math.BigInteger;
 import java.util.Random;
 import java.io.*;
 import java.math.BigInteger;
+
 
 public class RSA {
 	public static BigInteger p;
@@ -13,6 +16,8 @@ public class RSA {
 	private BigInteger d;
 	private int bitlength = 62;
 	private int blocksize = 256;
+        
+
 	private Random r;
 
 	public RSA() {
@@ -21,7 +26,7 @@ public class RSA {
                 long z=1678030687;
                  p = BigInteger.valueOf(x);
 	 	 q = BigInteger.valueOf(y);
-	 	 e=  BigInteger.valueOf(z);
+	 	 e=	BigInteger.valueOf(z);
 		N = p.multiply(q);
 		phi = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE));
 
@@ -29,7 +34,16 @@ public class RSA {
 	
 			e.add(BigInteger.ONE);		//e=e+1
 		}
+
 		d = e.modInverse(phi);
+                
+                
+                
+                
+                
+	
+	
+
 }
 	public RSA(BigInteger e, BigInteger d, BigInteger N) {
 
@@ -66,19 +80,118 @@ public static String bytesToString(byte[] encrypted) {
 		for (byte b : encrypted) {
 			test += Byte.toString(b);
 		}
+
 		return test;
 	}
 
 	// Encrypt message
 
 	public byte[] encryptRSA(byte[] message) {
-		return (new BigInteger(message)).modPow(e, N).toByteArray();
+            // DNA 
+            String toEncrypt = bytesToString(message);
+            String encrypted = "";
+            String fullEncrypt = "";
+            for(int i = 0 ; i  < toEncrypt.length();i++){
+                char thisChar = toEncrypt.charAt(i);
+                int asc = (int)thisChar;
+                String temporary = "";
+                for(int j =0 ; j < 4; j++){
+                    int and1 = asc&1;
+                    asc = asc>>1;
+
+                    int and2 = asc&1;
+                    asc = asc>>1;
+                    if(and1 == 1){
+                        if(and2==1){
+                            temporary =  "T" + temporary;
+                        }
+                        else{
+                            temporary =  "C"+ temporary;
+
+
+                        }
+                    }
+                    else{
+                        if(and2==1){
+                            temporary =  "G"+ temporary;
+
+
+                        }
+                        else{
+                            temporary =  "A"+ temporary;
+
+
+                        }
+                    }
+
+
+                }
+                encrypted = encrypted + temporary;
+                //int myInt = map.get(temporary).intValue();
+                //char val = (char)myInt;
+                //fullEncrypt = fullEncrypt + val;
+
+
+            }
+            return encrypted.getBytes();
+            // DNA 
+		
+		//return (new BigInteger(message)).modPow(e, N).toByteArray();
 	}
 
 	// Decrypt message
 
 	public byte[] decryptRSA(byte[] message) {
-		return (new BigInteger(message)).modPow(d, N).toByteArray();
+            
+            // DNA 
+            String encrypted = bytesToString(message);
+            String ans = "";
+            int f = encrypted.length();
+
+            for(int  i =0 ; i< f; i = i + 4){
+                int temp = 0;
+                for(int j = 3 ;j>=0;j--){
+                    if(encrypted.charAt(i+3-j)=='A'){
+                        temp = temp + 0;
+                    }
+                    else if(encrypted.charAt(i+3-j)=='G'){
+                        int po = 1;
+                        for(int k = 0;k < j*2+1;k++){
+                            po = po*2;
+                        }
+                        temp = temp + po;
+
+                    }
+                    else if(encrypted.charAt(i+3-j)=='C'){
+                        int po = 1;
+                        for(int k = 0;k < j*2;k++){
+                            po = po*2;
+                        }
+                        temp = temp + po;
+                    }
+                    else if(encrypted.charAt(i+3-j)=='T'){
+                        int po1 = 1;
+                        for(int k = 0;k < j*2;k++){
+                            po1 = po1*2;
+                        }
+                        int po2 = 1;
+
+                        for(int k = 0;k < j*2+1;k++){
+                            po2 = po2*2;
+                        }
+                        temp = temp + po1 + po2;
+                    }
+                }
+                char uf = (char)temp;
+                //System.out.print(temp + " ");
+                ans = ans + uf;
+            }
+
+            return ans.getBytes();
+            
+            
+            // DNA
+		//return (new BigInteger(message)).modPow(d, N).toByteArray();
 
 	}
 }
